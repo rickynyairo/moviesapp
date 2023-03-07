@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/moviesListFragment">
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.ricky.moviesapp.ui.MoviesListFragment"
-        android:label="@string/movies_list_fragment_label"
-        tools:layout="@layout/movies_list_fragment">
-
+        android:id="@+id/movieDetailFragment"
+        android:name="com.ricky.moviesapp.ui.MovieDetailFragment"
+        android:label="movie_detail_fragment"
+        tools:layout="@layout/movie_detail_fragment">
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_movieDetailFragment_to_moviesListFragment"
+            app:destination="@id/moviesListFragment" />
+        <argument
+            android:name="imdbID"
+            app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.ricky.moviesapp.ui.MovieDetailFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/movie_detail_fragment">
-
+        android:id="@+id/moviesListFragment"
+        android:name="com.ricky.moviesapp.ui.MoviesListFragment"
+        android:label="movies_list_fragment"
+        tools:layout="@layout/movies_list_fragment">
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_moviesListFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 </navigation>
