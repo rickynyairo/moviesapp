@@ -1,12 +1,13 @@
-package com.ricky.moviesapp
+package com.ricky.moviesapp.ui
 
-import OmdbApiClient
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.ricky.moviesapp.api.OmdbApiClient
 import com.ricky.moviesapp.databinding.MoviesListFragmentBinding
+import com.ricky.moviesapp.persistence.MoviesRepository
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.

@@ -1,9 +1,11 @@
-package com.ricky.moviesapp
+package com.ricky.moviesapp.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ricky.moviesapp.entity.Movie
+import com.ricky.moviesapp.persistence.MoviesRepository
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {

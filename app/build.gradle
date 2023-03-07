@@ -1,11 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
     namespace 'com.ricky.moviesapp'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.ricky.moviesapp"
@@ -36,7 +37,12 @@ android {
 }
 
 dependencies {
+    def room_version = "2.5.0"
 
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.5.0-alpha04'
@@ -47,6 +53,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
     implementation "com.squareup.picasso:picasso:2.8"
+    testImplementation "androidx.room:room-testing:$room_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'

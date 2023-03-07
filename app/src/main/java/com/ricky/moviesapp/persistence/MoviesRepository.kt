@@ -1,6 +1,8 @@
-package com.ricky.moviesapp
+package com.ricky.moviesapp.persistence
 
-import OmdbApiClient
+
+import com.ricky.moviesapp.api.OmdbApiClient
+import com.ricky.moviesapp.entity.Movie
 
 class MoviesRepository(private val omdbApi: OmdbApiClient) {
 

@@ -1,4 +1,6 @@
-import com.ricky.moviesapp.Movie
+package com.ricky.moviesapp.api
+
+import com.ricky.moviesapp.entity.Movie
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

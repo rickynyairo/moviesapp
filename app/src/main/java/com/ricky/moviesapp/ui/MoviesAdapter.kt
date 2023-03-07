@@ -1,8 +1,10 @@
-package com.ricky.moviesapp
+package com.ricky.moviesapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ricky.moviesapp.entity.Movie
+import com.ricky.moviesapp.R
 import com.ricky.moviesapp.databinding.MovieItemBinding
 import com.squareup.picasso.Picasso
 
