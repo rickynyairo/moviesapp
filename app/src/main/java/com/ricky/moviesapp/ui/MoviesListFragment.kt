@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.ricky.moviesapp.api.OmdbApiClient
 import com.ricky.moviesapp.databinding.MoviesListFragmentBinding
+import com.ricky.moviesapp.entity.Movie
+import com.ricky.moviesapp.persistence.DatabaseProvider
 import com.ricky.moviesapp.persistence.MoviesRepository
+import com.ricky.moviesapp.ui.MoviesAdapter.OnItemClickListener
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class MoviesListFragment : Fragment() {
+class MoviesListFragment : Fragment(), OnItemClickListener {
 
     private var _binding: MoviesListFragmentBinding? = null
     private lateinit var moviesViewModel: MoviesViewModel
@@ -27,7 +31,12 @@ class MoviesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        moviesViewModel = MoviesViewModel(MoviesRepository(OmdbApiClient()))
+        moviesViewModel = MoviesViewModel(
+            MoviesRepository(
+                OmdbApiClient(),
+                DatabaseProvider.getMoviesDao()
+            )
+        )
         _binding = MoviesListFragmentBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -36,12 +45,20 @@ class MoviesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // replace with a call to the view model.
-        moviesAdapter = MoviesAdapter(emptyList())
+        moviesAdapter = MoviesAdapter(emptyList(), this)
         moviesViewModel.movies.observe(viewLifecycleOwner) { movies ->
             moviesAdapter.submitList(movies)
         }
         binding.savedMoviesRecyclerView.adapter = moviesAdapter
         moviesViewModel.searchMovies("The Godfather")
+    }
+
+    override fun onItemClick(movie: Movie, view: View) {
+        Navigation
+            .findNavController(view)
+            .navigate(
+                MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(movie.imdbID)
+            )
     }
 
     override fun onDestroyView() {

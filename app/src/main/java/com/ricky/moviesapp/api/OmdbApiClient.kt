@@ -11,8 +11,11 @@ import retrofit2.http.Query
 data class MovieSearchResult(val Search: List<Movie>, val totalResults: Int)
 
 interface OmdbService {
-    @GET("/?apikey=64623f9c&")
+    @GET("/?apikey=64623f9c")
     suspend fun searchMovies(@Query("s") query: String): MovieSearchResult
+
+    @GET("/?apikey=64623f9c")
+    suspend fun findByImdbId(@Query("i") imdbId: String): Movie
 }
 
 class OmdbApiClient {
@@ -36,5 +39,9 @@ class OmdbApiClient {
     suspend fun searchMovies(query: String): List<Movie> {
         var result = apiService.searchMovies(query)
         return result.Search
+    }
+
+    suspend fun findByImdbId(imdbId: String): Movie {
+        return apiService.findByImdbId(imdbId)
     }
 }

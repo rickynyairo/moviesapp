@@ -4,12 +4,27 @@ package com.ricky.moviesapp.persistence
 import com.ricky.moviesapp.api.OmdbApiClient
 import com.ricky.moviesapp.entity.Movie
 
-class MoviesRepository(private val omdbApi: OmdbApiClient) {
+class MoviesRepository(private val omdbApi: OmdbApiClient, private val moviesDAO: MoviesDAO) {
 
     suspend fun searchMovies(query: String): List<Movie> {
-        val response = omdbApi.searchMovies(query)
-        return response.map {
-            Movie(it.title, it.year, it.imdbID, it.type, it.posterUrl)
-        }
+        return omdbApi.searchMovies(query)
     }
+
+    suspend fun findMovieFromApiByImdbId(imdbId: String): Movie {
+        return omdbApi.findByImdbId(imdbId)
+
+    }
+
+    fun saveMovie(movie: Movie) {
+        moviesDAO.save(movie)
+    }
+
+    fun deleteMovie(movie: Movie) {
+        moviesDAO.delete(movie)
+    }
+
+    fun getMovie(imdbId: String): Movie? {
+        return moviesDAO.findById(imdbId)
+    }
+
 }

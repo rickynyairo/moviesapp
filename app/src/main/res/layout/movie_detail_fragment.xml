@@ -26,22 +26,47 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/label_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Title: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <TextView
                 android:id="@+id/title_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:text="Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/label_year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="Title"
+                android:text="Year"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
             <TextView
                 android:id="@+id/year_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:text="Year"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
         </LinearLayout>
 
         <LinearLayout
@@ -83,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="6"
                 android:text="Plot: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
@@ -93,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:ellipsize="end"
-                android:maxLines="3"
+                android:maxLines="6"
                 android:text="Plot"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
         </LinearLayout>
