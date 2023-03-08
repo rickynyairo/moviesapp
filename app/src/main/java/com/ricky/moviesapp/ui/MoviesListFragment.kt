@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.ricky.moviesapp.MainActivity
 import com.ricky.moviesapp.api.OmdbApiClient
 import com.ricky.moviesapp.databinding.MoviesListFragmentBinding
 import com.ricky.moviesapp.entity.Movie
@@ -36,13 +37,15 @@ class MoviesListFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        moviesViewModel = MoviesViewModel(
-            MoviesRepository(
-                OmdbApiClient(),
-                DatabaseProvider.getMoviesDao()
-            )
+        val moviesRepository = MoviesRepository(
+            OmdbApiClient(),
+            DatabaseProvider.getMoviesDao()
         )
+        parentActivity = requireActivity() as MainActivity
+        moviesViewModel = ViewModelProvider(
+            parentActivity,
+            MoviesViewModelFactory(moviesRepository))[MoviesViewModel::class.java]
+
         _binding = MoviesListFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,7 +55,13 @@ class MoviesListFragment : Fragment(), OnItemClickListener {
         // replace with a call to the view model.
         moviesAdapter = MoviesAdapter(emptyList(), this)
         moviesViewModel.movies.observe(viewLifecycleOwner) { movies ->
-            moviesAdapter.submitList(movies)
+            if(!movies.isNullOrEmpty()){
+                moviesAdapter.submitList(movies)
+            }
+            else{
+                // movies is null or empty, error from the response
+                // ignore results
+            }
         }
         binding.savedMoviesRecyclerView.adapter = moviesAdapter
         CoroutineScope(Dispatchers.Default).launch {

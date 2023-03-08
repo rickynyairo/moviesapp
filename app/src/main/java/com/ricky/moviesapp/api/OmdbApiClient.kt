@@ -37,8 +37,13 @@ class OmdbApiClient {
     }
 
     suspend fun searchMovies(query: String): List<Movie> {
-        var result = apiService.searchMovies(query)
-        return result.Search
+        return try{
+            val result = apiService.searchMovies(query)
+            result.Search
+        }catch(ex: Exception) {
+            println(ex)
+            emptyList<Movie>()
+        }
     }
 
     suspend fun findByImdbId(imdbId: String): Movie {

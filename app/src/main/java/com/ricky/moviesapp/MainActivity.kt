@@ -9,6 +9,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,6 +22,7 @@ import com.ricky.moviesapp.databinding.ActivityMainBinding
 import com.ricky.moviesapp.persistence.DatabaseProvider
 import com.ricky.moviesapp.persistence.MoviesRepository
 import com.ricky.moviesapp.ui.MoviesViewModel
+import com.ricky.moviesapp.ui.MoviesViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    internal lateinit var moviesViewModel: MoviesViewModel by activityViewModels()
+    internal lateinit var moviesViewModel: MoviesViewModel
     lateinit var fab: FloatingActionButton
 
 
@@ -42,12 +44,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        moviesViewModel = MoviesViewModel(
-            MoviesRepository(
-                OmdbApiClient(),
-                DatabaseProvider.getMoviesDao()
-            )
+        val moviesRepository = MoviesRepository(
+            OmdbApiClient(),
+            DatabaseProvider.getMoviesDao()
         )
+        moviesViewModel = ViewModelProvider(
+            this,
+            MoviesViewModelFactory(moviesRepository)
+        )[MoviesViewModel::class.java]
+
         fab = binding.fab
         navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -77,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         return true
                     }
-                    CoroutineScope(Dispatchers.Default).launch {
+                    CoroutineScope(Dispatchers.Main).launch {
                         moviesViewModel.searchMovies(query)
                     }
                     return true
