@@ -58,10 +58,8 @@ class MoviesListFragment : Fragment(), OnItemClickListener {
             if(!movies.isNullOrEmpty()){
                 moviesAdapter.submitList(movies)
             }
-            else{
-                // movies is null or empty, error from the response
-                // ignore results
-            }
+            // movies is null or empty, error from the response
+            // ignore results
         }
         binding.savedMoviesRecyclerView.adapter = moviesAdapter
         CoroutineScope(Dispatchers.Default).launch {

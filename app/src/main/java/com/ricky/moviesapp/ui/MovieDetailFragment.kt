@@ -27,18 +27,24 @@ class MovieDetailFragment : Fragment() {
     private lateinit var moviesViewModel: MoviesViewModel
     private lateinit var moviesRepository: MoviesRepository
     private lateinit var args: MovieDetailFragmentArgs
+    private lateinit var parentActivity: MainActivity
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        parentActivity = requireActivity() as MainActivity
         args = MovieDetailFragmentArgs.fromBundle(requireArguments())
         moviesRepository = MoviesRepository(OmdbApiClient(), DatabaseProvider.getMoviesDao())
         moviesViewModel = MoviesViewModel(moviesRepository)
         _binding = MovieDetailFragmentBinding.inflate(inflater, container, false)
+
+        // disable search view in details fragment
+        parentActivity.searchView.isIconified = true
+        parentActivity.searchView.visibility = View.GONE
+
         return binding.root
-        setHasOptionsMenu(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,8 +66,7 @@ class MovieDetailFragment : Fragment() {
                 .into(binding.posterImageView)
             theMovie = movie
         }
-        var main = activity as MainActivity
-        main.fab.apply {
+        parentActivity.fab.apply {
             visibility = View.VISIBLE
             setOnClickListener {
                 CoroutineScope(Dispatchers.Default).launch {

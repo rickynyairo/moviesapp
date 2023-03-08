@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     internal lateinit var moviesViewModel: MoviesViewModel
     lateinit var fab: FloatingActionButton
-
+    lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        var searchView: SearchView? = null
         val searchItem = menu.findItem(R.id.action_search)
         searchView = searchItem?.actionView as SearchView
         searchView.setSearchableInfo(
@@ -123,7 +122,6 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     item.expandActionView()
                 }
-
                 true
             }
             else -> super.onOptionsItemSelected(item)
