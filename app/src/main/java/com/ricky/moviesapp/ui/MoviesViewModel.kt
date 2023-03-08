@@ -22,7 +22,13 @@ class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
     fun searchMovies(query: String) {
         viewModelScope.launch {
             val result = repository.searchMovies(query)
-            _movies.postValue(result)
+            val savedMovies = repository.getMovies()
+            val resultsWithoutHiddenMovies = result.filterNot { searchedMovie ->
+                savedMovies.any { savedMovie ->
+                    savedMovie.imdbID == searchedMovie.imdbID  && savedMovie.hidden
+                }
+            }
+            _movies.postValue(resultsWithoutHiddenMovies)
         }
     }
 

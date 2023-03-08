@@ -44,5 +44,5 @@ data class Movie(
     @Expose
     val rating: String = "",
 
-    val hidden: Boolean = false
+    var hidden: Boolean = false
 )

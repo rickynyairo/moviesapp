@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-data class MovieSearchResult(val Search: List<Movie>, val totalResults: Int)
+data class MovieSearchResult(val Search: List<Movie>, val totalResults: Int, val Response:String)
 
 interface OmdbService {
     @GET("/?apikey=64623f9c")
@@ -37,12 +37,11 @@ class OmdbApiClient {
     }
 
     suspend fun searchMovies(query: String): List<Movie> {
-        return try{
-            val result = apiService.searchMovies(query)
+        val result = apiService.searchMovies(query)
+        return if (result.Response == "True") {
             result.Search
-        }catch(ex: Exception) {
-            println(ex)
-            emptyList<Movie>()
+        }else{
+            emptyList()
         }
     }
 

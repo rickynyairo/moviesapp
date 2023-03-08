@@ -60,7 +60,7 @@ class MovieDetailFragment : Fragment() {
             } else {
                 // movie exists in collection
                 // show remove button
-                binding .fabHide.visibility = View.VISIBLE
+                binding .fabRemove.visibility = View.VISIBLE
             }
         }
         var theMovie: Movie? = null
@@ -92,11 +92,11 @@ class MovieDetailFragment : Fragment() {
                         .setAction("Action", null).show()
                 }
                 it.visibility = View.GONE
-                binding.fabHide.visibility = View.VISIBLE
+                binding.fabRemove.visibility = View.VISIBLE
             }
         }
 
-        binding.fabHide.apply {
+        binding.fabRemove.apply {
             setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
                     // remove and show message
@@ -111,6 +111,23 @@ class MovieDetailFragment : Fragment() {
                     findNavController().popBackStack()
                 }
                 it.visibility = View.GONE
+            }
+        }
+        binding.fabHide.apply {
+            setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    // hide movie, save locally and show message
+                    theMovie?.hidden = true
+                    moviesRepository.saveMovie(theMovie!!)
+                    Snackbar.make(
+                        it,
+                        getString(R.string.movie_hidden),
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAnchorView(R.id.fab)
+                        .setAction("Action", null).show()
+                    findNavController().popBackStack()
+                }
             }
         }
         super.onViewCreated(view, savedInstanceState)
