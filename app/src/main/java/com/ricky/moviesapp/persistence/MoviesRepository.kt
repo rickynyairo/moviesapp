@@ -19,6 +19,10 @@ class MoviesRepository(private val omdbApi: OmdbApiClient, private val moviesDAO
         moviesDAO.save(movie)
     }
 
+    fun getMovies(): List<Movie>{
+        return moviesDAO.getAll()
+    }
+
     fun deleteMovie(movie: Movie) {
         moviesDAO.delete(movie)
     }

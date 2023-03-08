@@ -38,11 +38,13 @@ class MovieDetailFragment : Fragment() {
         moviesViewModel = MoviesViewModel(moviesRepository)
         _binding = MovieDetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
-
+        setHasOptionsMenu(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        moviesViewModel.getMovieFromApi(args.imdbID)
+        CoroutineScope(Dispatchers.Default).launch {
+            moviesViewModel.getMovieFromApi(args.imdbID)
+        }
         var theMovie: Movie? = null
         moviesViewModel.movie.observe(viewLifecycleOwner) { movie ->
             binding.apply {
@@ -59,9 +61,8 @@ class MovieDetailFragment : Fragment() {
             theMovie = movie
         }
         var main = activity as MainActivity
-        // var starIcon = Icon.createWithResource(main, R.drawable.ic)
         main.fab.apply {
-            //setImageIcon(starIcon)
+            visibility = View.VISIBLE
             setOnClickListener {
                 CoroutineScope(Dispatchers.Default).launch {
                     moviesRepository.saveMovie(theMovie!!)

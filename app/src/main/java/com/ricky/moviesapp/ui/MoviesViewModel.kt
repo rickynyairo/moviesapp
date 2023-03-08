@@ -26,10 +26,13 @@ class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
         }
     }
 
-    fun getMovieFromApi(imdbId: String){
-        viewModelScope.launch {
-            val result = repository.findMovieFromApiByImdbId(imdbId)
-            _movie.value = result
-        }
+    suspend fun getMovieFromApi(imdbId: String){
+        val result = repository.findMovieFromApiByImdbId(imdbId)
+        _movie.postValue(result)
+    }
+
+    fun getSavedMovies(){
+        val result = repository.getMovies()
+        _movies.postValue(result)
     }
 }
