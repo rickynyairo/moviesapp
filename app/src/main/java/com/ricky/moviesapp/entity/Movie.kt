@@ -42,5 +42,7 @@ data class Movie(
 
     @SerializedName("imdbRating")
     @Expose
-    val rating: String = ""
+    val rating: String = "",
+
+    val hidden: Boolean = false
 )

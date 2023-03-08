@@ -11,11 +11,11 @@ import okhttp3.internal.notifyAll
 
 class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
 
-    private val _movies = MutableLiveData<List<Movie>>()
+    private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() = _movies
 
-    private val _movie = MutableLiveData<Movie>()
+    private val _movie: MutableLiveData<Movie> = MutableLiveData()
     val movie: LiveData<Movie>
         get() = _movie
 

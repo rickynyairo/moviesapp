@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ricky.moviesapp.MainActivity
 import com.ricky.moviesapp.api.OmdbApiClient
 import com.ricky.moviesapp.databinding.MoviesListFragmentBinding
@@ -60,7 +61,10 @@ class MoviesListFragment : Fragment(), OnItemClickListener {
             // movies is null or empty, error from the response
             // ignore results
         }
-        binding.savedMoviesRecyclerView.adapter = moviesAdapter
+        binding.savedMoviesRecyclerView.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = moviesAdapter
+        }
         CoroutineScope(Dispatchers.Default).launch {
             moviesViewModel.getSavedMovies()
         }

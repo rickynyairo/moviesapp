@@ -15,7 +15,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.ricky.moviesapp.api.OmdbApiClient
 import com.ricky.moviesapp.databinding.ActivityMainBinding
@@ -99,6 +98,7 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
+        searchView.isIconified = false
         return true
     }
 

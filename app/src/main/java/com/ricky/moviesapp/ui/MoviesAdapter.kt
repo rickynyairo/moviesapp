@@ -48,6 +48,7 @@ class MoviesAdapter(private var moviesList: List<Movie>, private val listener: O
             binding.titleTextView.text = movie.title
             binding.yearTextView.text = movie.year
             binding.typeTextView.text = movie.type
+            binding.ratingTextView.text = movie.rating
             Picasso.get().load(movie.posterUrl).placeholder(R.drawable.placeholder)
                 .into(binding.posterImageView)
 
