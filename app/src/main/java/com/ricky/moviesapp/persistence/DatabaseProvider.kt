@@ -8,6 +8,7 @@ object DatabaseProvider {
 
     fun init(context: Context) {
         moviesDatabase = Room.databaseBuilder(context, MoviesDatabase::class.java, "movies")
+            .allowMainThreadQueries()
             .build()
     }
 

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     internal lateinit var moviesViewModel: MoviesViewModel
-    lateinit var fab: FloatingActionButton
     lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             MoviesViewModelFactory(moviesRepository)
         )[MoviesViewModel::class.java]
 
-        fab = binding.fab
         navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -70,7 +68,6 @@ class MainActivity : AppCompatActivity() {
         )
         searchView.maxWidth = Int.MAX_VALUE
         searchView.queryHint = getString(R.string.search_hint)
-//        searchView.setQuery("", false)
         val queryTextListener: SearchView.OnQueryTextListener =
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(query: String): Boolean {

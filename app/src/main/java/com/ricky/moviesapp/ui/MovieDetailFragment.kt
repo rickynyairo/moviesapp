@@ -1,11 +1,12 @@
 package com.ricky.moviesapp.ui
 
-import android.graphics.drawable.Icon
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.ricky.moviesapp.MainActivity
 import com.ricky.moviesapp.R
 import com.ricky.moviesapp.api.OmdbApiClient
@@ -49,7 +50,18 @@ class MovieDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         CoroutineScope(Dispatchers.Default).launch {
-            moviesViewModel.getMovieFromApi(args.imdbID)
+            moviesViewModel.getMovie(args.imdbID)
+        }
+        CoroutineScope(Dispatchers.Main).launch{
+            if (moviesRepository.getMovie(args.imdbID) == null){
+                // movie does not exist in collection
+                // show add button
+                binding.fab.visibility = View.VISIBLE
+            } else {
+                // movie exists in collection
+                // show remove button
+                binding .fabHide.visibility = View.VISIBLE
+            }
         }
         var theMovie: Movie? = null
         moviesViewModel.movie.observe(viewLifecycleOwner) { movie ->
@@ -66,12 +78,39 @@ class MovieDetailFragment : Fragment() {
                 .into(binding.posterImageView)
             theMovie = movie
         }
-        parentActivity.fab.apply {
-            visibility = View.VISIBLE
+        binding.fab.apply {
             setOnClickListener {
                 CoroutineScope(Dispatchers.Default).launch {
+                    // save and show message
                     moviesRepository.saveMovie(theMovie!!)
+                    Snackbar.make(
+                        it,
+                        getString(R.string.movie_added),
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAnchorView(R.id.fab)
+                        .setAction("Action", null).show()
                 }
+                it.visibility = View.GONE
+                binding.fabHide.visibility = View.VISIBLE
+            }
+        }
+
+        binding.fabHide.apply {
+            setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    // remove and show message
+                    moviesRepository.deleteMovie(theMovie!!)
+                    Snackbar.make(
+                        it,
+                        getString(R.string.movie_removed),
+                        Snackbar.LENGTH_LONG
+                    )
+                        .setAnchorView(R.id.fab)
+                        .setAction("Action", null).show()
+                    findNavController().popBackStack()
+                }
+                it.visibility = View.GONE
             }
         }
         super.onViewCreated(view, savedInstanceState)

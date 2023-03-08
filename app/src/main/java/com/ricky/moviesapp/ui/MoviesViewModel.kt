@@ -26,9 +26,15 @@ class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
         }
     }
 
-    suspend fun getMovieFromApi(imdbId: String){
-        val result = repository.findMovieFromApiByImdbId(imdbId)
-        _movie.postValue(result)
+    suspend fun getMovie(imdbId: String){
+        var movie = repository.getMovie(imdbId)
+        if (movie != null){
+            // movie exists locally
+            _movie.postValue(movie!!)
+        }else{
+            movie = repository.findMovieFromApiByImdbId(imdbId)
+            _movie.postValue(movie!!)
+        }
     }
 
     fun getSavedMovies(){

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.ricky.moviesapp.MainActivity
@@ -27,7 +26,7 @@ class MoviesListFragment : Fragment(), OnItemClickListener {
     private var _binding: MoviesListFragmentBinding? = null
     private lateinit var moviesViewModel: MoviesViewModel
     private lateinit var moviesAdapter: MoviesAdapter
-    private lateinit var parentActivity: FragmentActivity
+    private lateinit var parentActivity: MainActivity
 
     // This property is only valid between onCreateView and
     // onDestroyView.
