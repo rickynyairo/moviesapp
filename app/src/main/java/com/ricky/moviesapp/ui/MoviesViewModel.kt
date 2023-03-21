@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.ricky.moviesapp.entity.Movie
 import com.ricky.moviesapp.persistence.MoviesRepository
 import kotlinx.coroutines.launch
-import okhttp3.internal.notifyAll
 
 class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
 
@@ -18,15 +17,18 @@ class MoviesViewModel(private val repository: MoviesRepository) : ViewModel() {
     private val _movie: MutableLiveData<Movie> = MutableLiveData()
     val movie: LiveData<Movie>
         get() = _movie
-
     fun searchMovies(query: String) {
         viewModelScope.launch {
             val result = repository.searchMovies(query)
             val savedMovies = repository.getMovies()
-            val resultsWithoutHiddenMovies = result.filterNot { searchedMovie ->
-                savedMovies.any { savedMovie ->
-                    savedMovie.imdbID == searchedMovie.imdbID  && savedMovie.hidden
+            val hiddenMovieHash = hashMapOf<String, Boolean>()
+            savedMovies.map { movie ->
+                if (movie.hidden) {
+                    hiddenMovieHash[movie.imdbID] = true
                 }
+            }
+            val resultsWithoutHiddenMovies = result.filterNot { searchedMovie ->
+                hiddenMovieHash.containsKey(searchedMovie.imdbID)
             }
             _movies.postValue(resultsWithoutHiddenMovies)
         }

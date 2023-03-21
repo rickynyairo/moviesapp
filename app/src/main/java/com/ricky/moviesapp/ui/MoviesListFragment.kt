@@ -56,7 +56,8 @@ class MoviesListFragment : Fragment(), OnItemClickListener {
         moviesAdapter = MoviesAdapter(emptyList(), this)
         moviesViewModel.movies.observe(viewLifecycleOwner) { movies ->
             if(!movies.isNullOrEmpty()){
-                moviesAdapter.submitList(movies)
+                val filteredMovies = movies.filter { movie -> !movie.hidden }
+                moviesAdapter.submitList(filteredMovies)
             }
             // movies is null or empty, error from the response
             // ignore results
